@@ -85,7 +85,7 @@ public final class Color {
      * @see #getGray
      */
     public static int getRGB(float gray) {
-
+        // TODO getRGB
         return 0;
     }
 
