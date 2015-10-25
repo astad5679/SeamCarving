@@ -85,8 +85,13 @@ public final class Color {
      * @see #getGray
      */
     public static int getRGB(float gray) {
-        // TODO getRGB
-        return 0;
+    	int gray1 = (int) (gray * 255.0f);
+        //String grayC = Integer.toBinaryString(grayN);
+    	int rgb = gray1;
+		rgb = (rgb << 8) + gray1;
+		rgb = (rgb << 8) + gray1;
+    	// TODO getRGB
+        return rgb;
     }
 
     /**
@@ -119,14 +124,15 @@ public final class Color {
      * @see #getRGB(float)
      */
     public static int[][] toRGB(float[][] gray) {
+    	// TODO toRGB
     	//float grayC = 0.0f;
-    	//for (int i = 0; i < gray.length; i++) {
-    		//for (int j = 0; j < gray.length; j++) {
-    			//int val = (int) gray[i][j];
-    			//grayC = getGray(val >> 16);
-        // TODO toRGB
-    		//}
-    	//}
+    	float[][] fullGray = new float[gray.length][gray[0].length];
+    	for (int i = 0; i < gray.length; i++) {
+    		for (int j = 0; j < gray.length; j++) {
+    			float val = gray[i][j];
+    			fullGray[i][j] = getRGB(val);
+    		}
+    	}
     	return null;
     }
 }
