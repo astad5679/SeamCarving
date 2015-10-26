@@ -13,22 +13,16 @@ public final class Filter {
      */
     public static float at(float[][] gray, int row, int col) {
         // TODO at
-    	//for (row = 0; row < gray.length; row++) {
-    	//	for (col = 0; col < gray[row].length; col++) {
-    	//		
-    	//	}
-    	//}
-    	//
     	float check = 0.0f;
     	try {
     		check = gray[row][col]; 
     	} catch (Exception e) {
-    		int[] checkVars = {-1,1,0,0};
+    		int[] checkSides = {-1,1,0,0};
     		int[] checkCorners = {-1,-1,1,1,1,-1,-1,1};
     		int l = 3;
     		for (int k = 0; k < 4; k++, l--) {
     			try {
-    				check = gray[row + checkVars[k]][col + checkVars[l]];
+    				check = gray[row + checkSides[k]][col + checkSides[l]];
     				break;
     			} catch (Exception f) {
     				try {
@@ -51,7 +45,23 @@ public final class Filter {
      */
     public static float[][] filter(float[][] gray, float[][] kernel) {
         // TODO filter
-        return null;
+    	float current = 0.0f;
+    	float around = 0.0f;
+    	float[][] smooth = new float[gray.length][gray[0].length];
+    	for (int col = 0; col < gray.length; col++) {
+        	for (int row = 0; row < gray[0].length; row++) {
+        		for (int i = -1; i < 2; i++) {
+        			for (int j = -1; j < 2; j++) {
+        				around = at(gray, i, j);
+        				current += around * kernel[i+1][j+1];
+        				//System.out.println(around);
+        				//System.out.println(current);
+        			}
+        		}
+        		smooth[col][row] = current; 
+        	}
+        }
+        return smooth;
     }
 
     /**
@@ -61,7 +71,13 @@ public final class Filter {
      */
     public static float[][] smooth(float[][] gray) {
         // TODO smooth
-        return null;
+    	float[][] smoothKernel = {
+				{0.1f,0.1f,0.1f},
+				{0.1f,0.2f,0.1f},
+				{0.1f,0.1f,0.1f}
+		};
+    	gray = filter(gray, smoothKernel);
+        return gray;
     }
 
     /**
