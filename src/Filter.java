@@ -47,21 +47,22 @@ public final class Filter {
         // TODO filter
     	float current = 0.0f;
     	float around = 0.0f;
-    	float[][] smooth = new float[gray.length][gray[0].length];
+    	float[][] filtered = new float[gray.length][gray[0].length];
     	for (int col = 0; col < gray.length; col++) {
         	for (int row = 0; row < gray[0].length; row++) {
         		for (int i = -1; i < 2; i++) {
         			for (int j = -1; j < 2; j++) {
-        				around = at(gray, i, j);
+        				around = at(gray, i + col, j + row);
         				current += around * kernel[i+1][j+1];
         				//System.out.println(around);
         				//System.out.println(current);
         			}
         		}
-        		smooth[col][row] = current; 
+        		filtered[col][row] = current; 
+        		current = 0.0f;
         	}
         }
-        return smooth;
+        return filtered;
     }
 
     /**
@@ -76,8 +77,8 @@ public final class Filter {
 				{0.1f,0.2f,0.1f},
 				{0.1f,0.1f,0.1f}
 		};
-    	gray = filter(gray, smoothKernel);
-        return gray;
+    	float [][] smooth = filter(gray, smoothKernel);
+        return smooth;
     }
 
     /**
@@ -87,7 +88,13 @@ public final class Filter {
      */
     public static float[][] sobelX(float[][] gray) {
         // TODO sobelX
-        return null;
+    	float[][] sobelX = {
+				{-1.0f,0.0f,1.0f},
+				{-2.0f,0.0f,2.0f},
+				{-1.0f,0.0f,1.0f}
+		};
+    	float [][] sobel = filter(gray, sobelX);
+        return sobel;
     }
 
     /**
@@ -97,7 +104,13 @@ public final class Filter {
      */
     public static float[][] sobelY(float[][] gray) {
         // TODO sobelY
-        return null;
+    	float[][] sobelY = {
+				{-1.0f,-2.0f,-1.0f},
+				{0.0f,0.0f,0.0f},
+				{1.0f,2.0f,1.0f}
+		};
+    	float [][] sobel = filter(gray, sobelY);
+        return sobel;
     }
 
     /**
