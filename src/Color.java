@@ -1,6 +1,6 @@
 
 /**
- * @author John Doe
+ * @author Andrés Stadelmann
  */
 public final class Color {
 
@@ -75,11 +75,23 @@ public final class Color {
      */
     public static int getRGB(float red, float green, float blue) {
         // TODO getRGB
-        //String grayC = Integer.toBinaryString(grayN);
-    	int rgb = (int) (red);
-		rgb = (rgb << 8) + (int) (green);
-		rgb = (rgb << 8) + (int) (blue);
+    	int rgb = (int) (checkFloat(red));
+		rgb = (rgb << 8) + (int) (checkFloat(green));
+		rgb = (rgb << 8) + (int) (checkFloat(blue));
         return rgb;
+    }
+    
+    /*
+     * This method is used to check if a float given as a parameter in the two getRGB() methods is between 0.0f and 1.0f
+     * If this fails to be the case, then the values are set to equal their respective boundaries
+     */
+    public static float checkFloat(float color) {
+    	if (color < 0.0f) {
+    		color = 0.0f;
+    	} else if (color > 1.0f) {
+    		color = 1.0f;
+    	}
+    	return color;
     }
     
     /**
@@ -89,7 +101,7 @@ public final class Color {
      * @see #getGray
      */
     public static int getRGB(float gray) {
-    	int gray1 = (int) (gray * 255.0f);
+    	int gray1 = (int) (checkFloat(gray) * 255.0f);
         //String grayC = Integer.toBinaryString(grayN);
     	int rgb = gray1;
 		rgb = (rgb << 8) + gray1;

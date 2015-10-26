@@ -1,6 +1,6 @@
 
 /**
- * @author John Doe
+ * @author Andrés Stadelmann
  */
 public final class Main {
 

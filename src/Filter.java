@@ -1,6 +1,6 @@
 
 /**
- * @author John Doe
+ * @author Andrés Stadelmann
  */
 public final class Filter {
 
@@ -13,7 +13,34 @@ public final class Filter {
      */
     public static float at(float[][] gray, int row, int col) {
         // TODO at
-        return 0.0f;
+    	//for (row = 0; row < gray.length; row++) {
+    	//	for (col = 0; col < gray[row].length; col++) {
+    	//		
+    	//	}
+    	//}
+    	//
+    	float check = 0.0f;
+    	try {
+    		check = gray[row][col]; 
+    	} catch (Exception e) {
+    		int[] checkVars = {-1,1,0,0};
+    		int[] checkCorners = {-1,-1,1,1,1,-1,-1,1};
+    		int l = 3;
+    		for (int k = 0; k < 4; k++, l--) {
+    			try {
+    				check = gray[row + checkVars[k]][col + checkVars[l]];
+    				break;
+    			} catch (Exception f) {
+    				try {
+    					check = gray[row + checkCorners[k]][col + checkCorners[checkCorners.length - 1 - k]];
+    					break;
+    				} catch (Exception g) {
+    					continue;
+    				}
+    			}
+    		}
+    	}
+        return check;
     }
 
     /**
