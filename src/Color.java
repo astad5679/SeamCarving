@@ -109,7 +109,7 @@ public final class Color {
         // TODO toGray
     	float[][] gray = new float[image.length][image[0].length];
     	for (int i = 0; i < image.length; i++) {
-    		for (int j = 0; j < image.length; j++) {
+    		for (int j = 0; j < image[0].length; j++) {
     			int val = image[i][j];
     			gray[i][j] = getGray(val);
     		}
@@ -137,7 +137,7 @@ public final class Color {
     	//}
     	int[][] fullGray = new int[gray.length][gray[0].length];
     	for (int i = 0; i < gray.length; i++) {
-    		for (int j = 0; j < gray.length; j++) {
+    		for (int j = 0; j < gray[0].length; j++) {
     			float val = gray[i][j];
     			fullGray[i][j] = getRGB(val);
     		}
