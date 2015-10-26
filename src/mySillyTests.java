@@ -34,7 +34,7 @@ public class mySillyTests {
 				{0.2f,0.4f,0.3f},
 				{0.1f,0.5f,0.2f}
 		};
-		float pos = Filter.at(testArray, 0, -1);
+		float pos = Filter.at(testArray, -1, -1);
 		System.out.println(pos); 
 		
 		

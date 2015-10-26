@@ -8,7 +8,7 @@ public final class Main {
 
         // Load image
         System.out.println("Load image...");
-        int[][] image = Helper.read("americascup.jpg"); //You can change this .jpg to any one you see fit provided it is within the project folder 
+        int[][] image = Helper.read("hiroshige.jpg"); //You can change this .jpg to any one you see fit provided it is within the project folder 
         Helper.show(image, "Original");					//(for the purpose of this project however, the width of the image has to be greater than the height)
 
         // Convert to grayscale

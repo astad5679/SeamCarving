@@ -54,8 +54,6 @@ public final class Filter {
         			for (int j = -1; j < 2; j++) {
         				around = at(gray, i + col, j + row);
         				current += around * kernel[i+1][j+1];
-        				//System.out.println(around);
-        				//System.out.println(current);
         			}
         		}
         		filtered[col][row] = current; 
@@ -120,7 +118,15 @@ public final class Filter {
      */
     public static float[][] sobel(float[][] gray) {
         // TODO sobel
-        return null;
+    	float[][] sobelx = sobelX(gray);
+    	float[][] sobely = sobelY(gray);
+    	float[][] sobelSum = new float[gray.length][gray[0].length];
+    	for (int col = 0; col < gray.length; col++) {
+    		for (int row = 0; row < gray[0].length; row++) {
+    			sobelSum[col][row] = (float) Math.sqrt(Math.pow(sobelx[col][row], 2.0) + Math.pow(sobely[col][row], 2.0));
+    		}
+    	} 	
+        return sobelSum;
     }
 
 }
