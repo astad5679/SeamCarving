@@ -1,6 +1,6 @@
 
 /**
- * @author Andrés Stadelmann
+ * @author Andres Stadelmann
  */
 public final class Main {
 
@@ -8,14 +8,14 @@ public final class Main {
 
         // Load image
         System.out.println("Load image...");
-        int[][] image = Helper.read("hiroshige.jpg"); //You can change this .jpg to any one you see fit provided it is within the project folder 
+        int[][] image = Helper.read("cats.jpg"); 	//You can change this .jpg to any one you see fit provided it is within the project folder 
         Helper.show(image, "Original");					//(for the purpose of this project however, the width of the image has to be greater than the height)
 
         // Convert to grayscale
         System.out.println("Convert to grayscale...");
         float[][] gray = Color.toGray(image);
-        Helper.show(Color.toRGB(gray), "Grayscale");
-
+        Helper.show(Color.toRGB(gray), "Grayscale");	//Color.toRGB() is required to create the corresponding rgb values for the floats in the array "gray"
+        												//However, float[][] gray is still kept as all the filters need to be applied on the vanilla float values
         // Smooth it
         System.out.println("Smooth image...");
         float[][] smooth = Filter.smooth(gray);

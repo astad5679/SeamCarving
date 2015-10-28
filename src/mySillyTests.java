@@ -27,7 +27,7 @@ public class mySillyTests {
 		rgb = (rgb << 8) + 159;
 		rgb = (rgb << 8) + 159;
         System.out.println(Integer.toHexString(rgb));
-        //*/
+        //
 		
 		float[][] testArray = {
 				{0.3f,0.8f,0.9f},
@@ -53,6 +53,30 @@ public class mySillyTests {
 			}
 			System.out.println("}");
 		}
+		*/
+		
+		float[][] energy = {
+				{0.5f,1.0f,0.1f,0.0f},
+				{0.5f,1.0f,0.1f,0.0f},
+				{2.0f,2.0f,0.1f,0.0f},
+				{1.0f,0.1f,0.1f,0.0f},
+				{1.0f,0.1f,1.0f,1.0f}
+		};
+		
+		int[] seam = Seam.find(energy);
+		
+		
+		//float[][] smooth = Filter.smooth(gray);
+		//float[][] sobel = Filter.sobel(gray);
+		
+		for (int i = 0; i < 5; i++) {
+			System.out.print("{");
+			for (int j = 0; j < 4; j++) {
+				System.out.print(energy[i][j] + ",");
+			}
+			System.out.println("}");
+		}
+		
 		
 	 }
 

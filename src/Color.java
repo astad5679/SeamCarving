@@ -1,6 +1,6 @@
 
 /**
- * @author Andrés Stadelmann
+ * @author Andres Stadelmann
  */
 public final class Color {
 

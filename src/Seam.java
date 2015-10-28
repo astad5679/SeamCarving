@@ -1,9 +1,47 @@
 
 /**
- * @author Andrés Stadelmann
+ * @author Andres Stadelmann
  */
 public final class Seam {
 
+	public static int getStateID(int row, int col, int maxCol) {
+		int stateID = (row * maxCol) + col;
+		return stateID;
+	}
+	
+	public static int getRow(int stateID, int maxCol) {
+		int row = stateID / maxCol;
+		return row;
+	}
+	
+	public static int getCol(int stateID, int maxCol) {
+		int col = stateID % maxCol;
+		return col;
+	}
+	
+	public static int[][] successors(float[][] energy) {
+		int[][] successors = new int[energy.length * energy[0].length + 2][];
+		int[] costs = new int[energy.length * energy[0].length + 2];
+		for (int row = 0; row < energy.length; row++) {
+    		for (int col = 0; col < energy[0].length; col++) {
+    			if (row == 0) {
+    				successors[energy.length * energy[0].length][col] = (int) energy[row][col];
+    			}
+    			int stateID = getStateID(row, col, energy[0].length);
+    			
+    			int[] sucIt = {-1,0,1};
+    			successors[stateID] = new int[3];
+    			for (int k = 0; k < 2; k++) {
+    				successors[stateID][k] = sucIt[k];
+    			}
+    	    	costs[stateID] = (int) energy[row][col];
+    		}
+    	}
+		successors[energy.length * energy[0].length + 1] = new int[] {};
+		return successors;
+	}
+	
+	
     /**
      * Compute shortest path between {@code from} and {@code to}
      * @param successors adjacency list for all vertices
@@ -24,6 +62,8 @@ public final class Seam {
      */
     public static int[] find(float[][] energy) {
         // TODO find
+    	int[][] successors = successors(energy);
+
         return null;
     }
 
