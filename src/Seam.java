@@ -2,6 +2,8 @@
 /**
  * @author Andres Stadelmann
  */
+import java.util.ArrayList;
+
 public final class Seam {
 
 	public static int getStateID(int row, int col, int maxCol) {
@@ -19,9 +21,10 @@ public final class Seam {
 		return col;
 	}
 	
-	public static int bestPredecessor(int staticID) {
+	/*public static int bestPredecessor(int staticID) {
 		return staticID;
 	}
+	*/
 	
 	public static int[][] successors(float[][] energy) {
 		int height = energy.length;
@@ -70,48 +73,43 @@ public final class Seam {
 		return successors;
 	}
 	
-	public static float[] costs(int[][] successors, float[][] energy) {
+	public static int[] costs(int[][] successors, float[][] energy) {
 		float[] costs = new float[successors.length];
     	for (int item = 0; item < costs.length; item++) {
     		costs[item] = Float.POSITIVE_INFINITY;
     	}
     	
     	int[] bestPredecessor = new int[costs.length];
-    	
-    	/*for (int pos = 0; pos < successors.length; pos++) {
-    		
-    		for (int sucNum = 0; sucNum < successors[pos].length; sucNum++) {
-    			if (energy)
-    		}
-    	}
-    	*/
+
     	int height = energy.length;
 		int width = energy[0].length;
 		for (int item : successors[height * width]) {
 			costs[item] = energy[0][item];
 			//System.out.print(costs[item] + ",");
 			bestPredecessor[item] = height * width;
+			//System.out.print("{cost of [" + item + "] = " + costs[item] + "}");
 		}
+		//System.out.println();
 		for (int row = 0; row < height; row++) {
 			//System.out.print("{");
 			if (row == height - 1) {
 				break;
 			}
     		for (int col = 0; col < width; col++) {
-    			System.out.print("{");
+    			//System.out.print("{");
     			int stateID = getStateID(row, col, width);
     			for (int item : successors[stateID]) {
-    				if (costs[item] > costs[stateID] + energy[row + 1][col]) {
-        				costs[item] = costs[stateID] + energy[row + 1][col];
+    				if (costs[item] > costs[stateID] + energy[row + 1][getCol(item, width)]) {
+        				costs[item] = costs[stateID] + energy[row + 1][getCol(item, width)];
         				bestPredecessor[item] = stateID;
-        				System.out.print("{cost of [" + item + "] = " + costs[item] + "}");
+        				//System.out.print("{cost[" + item + "] = " + costs[item] + "}");
         			} 
     				
     			}    			
-    			System.out.print("}");
+    			//System.out.print("}");
     		}
     		
-    		System.out.println("}");
+    		//System.out.println("}");
 		}
 		int finalID = (width * height + 1);
 		//costs[finalID] = Float.POSITIVE_INFINITY;
@@ -119,11 +117,13 @@ public final class Seam {
 			if (costs[finalID] > costs[stateID]) {
 				costs[finalID] = costs[stateID];
 				bestPredecessor[finalID] = stateID;
-				System.out.print("{cost of [" + finalID + "] = " + costs[finalID] + "}");
+				//System.out.print("{cost of [" + finalID + "] = " + costs[finalID] + "}");
+				//System.out.println("{predecessor of [" + finalID + "] = " + bestPredecessor[finalID] + "}");
 			}
 			
 		}
-		return costs;
+		int[] seam = path(bestPredecessor, costs, width * height, width * height + 1);
+		return seam;
 	}
 	
     /**
@@ -134,9 +134,23 @@ public final class Seam {
      * @param to last vertex
      * @return a sequence of vertices, or {@code null} if no path exists
      */
-    public static int[] path(int[][] successors, float[] costs, int from, int to) {
+    public static int[] path(int[] bestPredecessor, float[] costs, int from, int to) {
         // TODO path
-        return null;
+    	ArrayList<Integer> path = new ArrayList<Integer>();
+    	int predecessor = to;
+    	while (predecessor != from) {
+    		path.add(bestPredecessor[predecessor]);
+    		predecessor = bestPredecessor[predecessor];
+    		//System.out.print(predecessor + ",");
+    	} 
+    	
+    	int[] seam = new int[path.size() - 1];
+    	int j = 0;
+    	for(int i = path.size() - 2; i >= 0; i--, j++) {
+    	    seam[j] = path.get(i);  
+    	    //System.out.print(seam[j] + ",");
+    	}
+        return seam;
     }
 
     /**
@@ -147,24 +161,20 @@ public final class Seam {
     public static int[] find(float[][] energy) {
         // TODO find
     	int[][] successors = successors(energy);
-    	float[] costs = costs(successors, energy);
+    	int[] path = costs(successors, energy);
     	
-    	
-    	/*for (int row = 0; row < successors.length; row++) {
-    		System.out.print("{");
-    		try {   			
-    			for (int col = 0; col < successors[row].length; col++) {
-    			
-    				System.out.print(successors[row][col] + ",");
-    			}
-    		} catch (Exception e) {
-    			continue;
-    		}
-    		System.out.println("}");
-    	}	
+    	/*for (int item : seam) {
+    		System.out.println(item);
+    	}
     	*/
-    	int[] hi = {0};
-        return hi;
+    	
+    	int[] seam = new int[path.length];
+    	for (int point : path) {
+    		int col = getCol(point, energy[0].length);
+    		int row = getRow(point, energy[0].length);
+    	}
+    
+        return seam;
     }
 
     /**
