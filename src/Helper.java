@@ -10,7 +10,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Provide simple tools to read, write and show pictures.
+ * Provide simple tools to read, write and show pictures. 
+ * (This class was supplied by default because with our current programming knowledge we would be unable to implement it)
  */
 public final class Helper {
 

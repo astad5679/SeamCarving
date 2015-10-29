@@ -5,12 +5,17 @@
 import java.util.ArrayList;
 
 public final class Seam {
-
+	
+	//This method calculates and returns the state ID of any given pixel. The ID will be subsequently used to more easily store and access the potential successors of each state
 	public static int getStateID(int row, int col, int maxCol) {
 		int stateID = (row * maxCol) + col;
 		return stateID;
 	}
 	
+	//The next two methods essentially do the opposite of the one just above. Given a certain state we wish to locate it as a pixel in the image, prompting us to call upon
+	//the row and column
+		//Remark: This is used primarily to locate the pixels of the calculated seam, so we can automatically assume (since we are reducing the width of the image) that each point on the
+		//seam finds itself on the next row, so we only need to know the column number
 	public static int getRow(int stateID, int maxCol) {
 		int row = stateID / maxCol;
 		return row;
@@ -21,11 +26,9 @@ public final class Seam {
 		return col;
 	}
 	
-	/*public static int bestPredecessor(int staticID) {
-		return staticID;
-	}
-	*/
 	
+	//The entire point of this method is to exclusively store the "successors" of each pixel, namely all the possibilities of branching out (limited to a distance of 1 going downwards)
+	//This can be drastically improved especially because the link between the image and each individual state isn't very smooth
 	public static int[][] successors(float[][] energy) {
 		int height = energy.length;
 		int width = energy[0].length;
@@ -73,6 +76,8 @@ public final class Seam {
 		return successors;
 	}
 	
+	//This method is currently calculating the cost it takes to get to a given pixel. It then stores the cheapest one in it's respective position in the bestPredecessor[] array
+	//Since the default method had some restrictive parameters that I couldn't use, I just ended up calculating the best path and transforming back to its respective image coordinates
 	public static int[] costs(int[][] successors, float[][] energy) {
 		float[] costs = new float[successors.length];
     	for (int item = 0; item < costs.length; item++) {
@@ -122,23 +127,10 @@ public final class Seam {
 			}
 			
 		}
-		int[] seam = path(bestPredecessor, costs, width * height, width * height + 1);
-		return seam;
-	}
-	
-    /**
-     * Compute shortest path between {@code from} and {@code to}
-     * @param successors adjacency list for all vertices
-     * @param costs weight for all vertices
-     * @param from first vertex
-     * @param to last vertex
-     * @return a sequence of vertices, or {@code null} if no path exists
-     */
-    public static int[] path(int[] bestPredecessor, float[] costs, int from, int to) {
-        // TODO path
-    	ArrayList<Integer> path = new ArrayList<Integer>();
-    	int predecessor = to;
-    	while (predecessor != from) {
+		
+		ArrayList<Integer> path = new ArrayList<Integer>();
+    	int predecessor = width * height + 1;
+    	while (predecessor != width * height) {
     		path.add(bestPredecessor[predecessor]);
     		predecessor = bestPredecessor[predecessor];
     		//System.out.print(predecessor + ",");
@@ -150,6 +142,24 @@ public final class Seam {
     	    seam[j] = path.get(i);  
     	    //System.out.print(seam[j] + ",");
     	}
+		//int[] seam = path(bestPredecessor, costs, width * height, width * height + 1);
+		return seam;
+	}
+	
+    /**
+     * Compute shortest path between {@code from} and {@code to}
+     * @param successors adjacency list for all vertices
+     * @param costs weight for all vertices
+     * @param from first vertex
+     * @param to last vertex
+     * @return a sequence of vertices, or {@code null} if no path exists
+     */
+	//Basically, this method does nothing
+    public static int[] path(int[][] successors, float[] costs, int from, int to) { //even though this works, I changed the parameters, so I need to figure this out another way
+        // TODO path
+    	
+    	int[] seam = new int[successors.length];
+    	
         return seam;
     }
 
@@ -158,6 +168,7 @@ public final class Seam {
      * @param energy weight for all pixels
      * @return a sequence of x-coordinates (the y-coordinate is the index)
      */
+    //This method is also a misnomer, we're gonna have to work on the assignment more precisely
     public static int[] find(float[][] energy) {
         // TODO find
     	int[][] successors = successors(energy);

@@ -8,7 +8,7 @@ public final class Main {
 
         // Load image
         System.out.println("Load image...");
-        int[][] image = Helper.read("americascup.jpg"); 	//You can change this .jpg to any one you see fit provided it is within the project folder 
+        int[][] image = Helper.read("tower.jpg"); 	//You can change this .jpg to any one you see fit provided it is within the project folder 
         Helper.show(image, "Original");						//(for the purpose of this project however, the width of the image has to be greater than the height)
 
         // Convert to grayscale
@@ -27,13 +27,13 @@ public final class Main {
         Helper.show(Color.toRGB(sobel), "Sobel");
         
         // Find best seam
-        System.out.println("Find best seam...");			//This is currently returning a seam with it's corresponding successor values, so a transformation to the main gray matrix
-        int[] seam = Seam.find(sobel);						//would be technically required
+        System.out.println("Find best seam...");			//Never mind, I fixed that. However, I have completely neglected a method that was supplied by default, so I'm gonna have to
+        int[] seam = Seam.find(sobel);						//use that somehow, because that would be technically required
         Helper.show(Seam.merge(image, seam), "Best seam");
 
         // Shrink until it is a square
-        int count = image[0].length - image.length;
-        System.out.println("Shrink by removing " + count + " seams...");
+        int count = image[0].length - image.length;							//This could be manipulated to dynamically accept user input values, such as resizing height as well as width
+        System.out.println("Shrink by removing " + count + " seams...");	//(To not just recreate squares)
         for (int i = 0; i < count; ++i) {
             sobel = Filter.sobel(Filter.smooth(Color.toGray(image)));
             seam = Seam.find(sobel);
@@ -44,7 +44,7 @@ public final class Main {
         Helper.show(image, "Shrink");
 
         // Save result
-        Helper.write("doves.shrink.jpg", image);
+        Helper.write("hiroshige.shrink.jpg", image);
 
     }
 
