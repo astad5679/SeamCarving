@@ -69,7 +69,7 @@ public final class Seam {
     		//System.out.println("}");
     		
     	}
-		successors[width * width + 1] = new int[] {};
+		successors[width * height + 1] = new int[] {};
 		return successors;
 	}
 	
@@ -169,9 +169,10 @@ public final class Seam {
     	*/
     	
     	int[] seam = new int[path.length];
+    	int i = 0;
     	for (int point : path) {
-    		int col = getCol(point, energy[0].length);
-    		int row = getRow(point, energy[0].length);
+    		seam[i] = getCol(point, energy[0].length);
+    		i++;
     	}
     
         return seam;

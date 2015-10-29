@@ -8,8 +8,8 @@ public final class Main {
 
         // Load image
         System.out.println("Load image...");
-        int[][] image = Helper.read("cats.jpg"); 	//You can change this .jpg to any one you see fit provided it is within the project folder 
-        Helper.show(image, "Original");					//(for the purpose of this project however, the width of the image has to be greater than the height)
+        int[][] image = Helper.read("americascup.jpg"); 	//You can change this .jpg to any one you see fit provided it is within the project folder 
+        Helper.show(image, "Original");						//(for the purpose of this project however, the width of the image has to be greater than the height)
 
         // Convert to grayscale
         System.out.println("Convert to grayscale...");
@@ -27,8 +27,8 @@ public final class Main {
         Helper.show(Color.toRGB(sobel), "Sobel");
         
         // Find best seam
-        System.out.println("Find best seam...");
-        int[] seam = Seam.find(sobel);
+        System.out.println("Find best seam...");			//This is currently returning a seam with it's corresponding successor values, so a transformation to the main gray matrix
+        int[] seam = Seam.find(sobel);						//would be technically required
         Helper.show(Seam.merge(image, seam), "Best seam");
 
         // Shrink until it is a square
