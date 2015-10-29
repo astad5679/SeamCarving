@@ -63,7 +63,9 @@ public class mySillyTests {
 				{1.0f,0.1f,1.0f,1.0f}
 		};
 		
-		int[][] seam = Seam.successors(energy);
+		int[] seam = Seam.find(energy);
+		//float test = Float.POSITIVE_INFINITY;
+		//System.out.println(test);
 		
 		
 		//float[][] smooth = Filter.smooth(gray);
