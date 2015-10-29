@@ -20,24 +20,45 @@ public final class Seam {
 	}
 	
 	public static int[][] successors(float[][] energy) {
-		int[][] successors = new int[energy.length * energy[0].length + 2][];
-		int[] costs = new int[energy.length * energy[0].length + 2];
-		for (int row = 0; row < energy.length; row++) {
-    		for (int col = 0; col < energy[0].length; col++) {
-    			if (row == 0) {
-    				successors[energy.length * energy[0].length][col] = (int) energy[row][col];
-    			}
-    			int stateID = getStateID(row, col, energy[0].length);
+		int height = energy.length;
+		int width = energy[0].length;
+		int[][] successors = new int[height * width + 2][];
+		successors[height * width] = new int[width];
+
+		int[] costs = new int[height * width + 2];
+		for (int row = 0; row < height; row++) {
+			//System.out.print("{");
+    		for (int col = 0; col < width; col++) {
+    			//System.out.print("{");
+    			int stateID = getStateID(row, col, width);
     			
-    			int[] sucIt = {-1,0,1};
-    			successors[stateID] = new int[3];
-    			for (int k = 0; k < 2; k++) {
-    				successors[stateID][k] = sucIt[k];
+    			if (row == 0) {
+    				successors[height * width][col] = stateID;
+    			}
+    			   			
+    			int[] sucIt;
+    			if (col == 0) {
+    				successors[stateID] = new int[2];
+    				sucIt = new int[] {0,1};
+    			} else if (col == width - 1) {
+    				successors[stateID] = new int[2];
+    				sucIt = new int[] {-1,0};
+    			} else {
+    				successors[stateID] = new int[3];
+    				sucIt = new int[] {-1,0,1};
+    			}
+    			
+    			for (int k = 0; k < sucIt.length; k++) {
+    				successors[stateID][k] = getStateID(row + 1, col + sucIt[k], width);
+    				//System.out.print(successors[stateID][k] + ",");
     			}
     	    	costs[stateID] = (int) energy[row][col];
+    	    	//System.out.print("}");
     		}
+    		//System.out.println("}");
+    		
     	}
-		successors[energy.length * energy[0].length + 1] = new int[] {};
+		successors[width * width + 1] = new int[] {};
 		return successors;
 	}
 	
@@ -63,8 +84,16 @@ public final class Seam {
     public static int[] find(float[][] energy) {
         // TODO find
     	int[][] successors = successors(energy);
-
-        return null;
+    	for (int row = 0; row < successors.length; row++) {
+    		System.out.print("{");
+    		for (int col = 0; col < successors[row].length; col++) {
+    			System.out.print(energy[row][col] + ",");
+    		}
+    		System.out.println("}");
+    	}	
+    	
+    	int[] hi = {0};
+        return hi;
     }
 
     /**

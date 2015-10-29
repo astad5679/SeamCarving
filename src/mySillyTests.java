@@ -63,19 +63,19 @@ public class mySillyTests {
 				{1.0f,0.1f,1.0f,1.0f}
 		};
 		
-		int[] seam = Seam.find(energy);
+		int[][] seam = Seam.successors(energy);
 		
 		
 		//float[][] smooth = Filter.smooth(gray);
 		//float[][] sobel = Filter.sobel(gray);
 		
-		for (int i = 0; i < 5; i++) {
-			System.out.print("{");
-			for (int j = 0; j < 4; j++) {
-				System.out.print(energy[i][j] + ",");
-			}
-			System.out.println("}");
-		}
+		//for (int i = 0; i < 5; i++) {
+		//	System.out.print("{");
+		//	for (int j = 0; j < 4; j++) {
+		//		System.out.print(energy[i][j] + ",");
+		//	}
+		//	System.out.println("}");
+		//}
 		
 		
 	 }
