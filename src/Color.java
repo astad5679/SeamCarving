@@ -60,7 +60,7 @@ public final class Color {
     	float red = getRed(rgb >> 16);
     	float green = getGreen(rgb >> 8);
     	float blue = getBlue(rgb);
-        return (red + green+ blue)/3.0f;
+        return (red + green + blue)/3.0f;
     }
 
     /**
@@ -75,9 +75,9 @@ public final class Color {
      */
     public static int getRGB(float red, float green, float blue) {
         // TODO getRGB
-    	int rgb = (int) (checkFloat(red));
-		rgb = (rgb << 8) + (int) (checkFloat(green));
-		rgb = (rgb << 8) + (int) (checkFloat(blue));
+    	int rgb = (int) (checkFloat(red) * 255.0f);
+		rgb = (rgb << 8) + (int) (checkFloat(green) * 255.0f);
+		rgb = (rgb << 8) + (int) (checkFloat(blue) * 255.0f);
         return rgb;
     }
     
@@ -101,12 +101,12 @@ public final class Color {
      * @see #getGray
      */
     public static int getRGB(float gray) {
-    	int gray1 = (int) (checkFloat(gray) * 255.0f);
-        //String grayC = Integer.toBinaryString(grayN);
-    	int rgb = gray1;
-		rgb = (rgb << 8) + gray1;
-		rgb = (rgb << 8) + gray1;
     	// TODO getRGB
+    	//int gray1 = (int) (checkFloat(gray) * 255.0f);
+    	//int rgb = gray1;
+		//rgb = (rgb << 8) + gray1;
+		//rgb = (rgb << 8) + gray1;
+    	int rgb = getRGB (gray, gray, gray);
         return rgb;
     }
 
@@ -142,7 +142,7 @@ public final class Color {
     public static int[][] toRGB(float[][] gray) {
     	// TODO toRGB
     	//float grayC = 0.0f;
-    	boolean k = true;
+    	//boolean k = true;
     	//if (k) {
     	//	System.out.println(gray[0].length*2);
     	//	k = false;

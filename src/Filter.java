@@ -18,20 +18,23 @@ public final class Filter {
     		check = gray[row][col]; 
     	} catch (Exception e) {
     		int[] checkSides = {-1,1,0,0};
-    		int[] checkCorners = {-1,-1,1,1,1,-1,-1,1};
     		int l = 3;
     		for (int k = 0; k < 4; k++, l--) {
     			try {
     				check = gray[row + checkSides[k]][col + checkSides[l]];
-    				break;
+    				return check;
     			} catch (Exception f) {
-    				try {
-    					check = gray[row + checkCorners[k]][col + checkCorners[checkCorners.length - 1 - k]];
-    					break;
-    				} catch (Exception g) {
-    					continue;
-    				}
+    				continue;
     			}
+    		}
+    		int[] checkCorners = {-1,-1,1,1,1,-1,-1,1};
+    		for (int k = 0; k < 4; k++) {
+    			try {
+					check = gray[row + checkCorners[k]][col + checkCorners[checkCorners.length - 1 - k]];
+					break;
+				} catch (Exception g) {
+					continue;
+				}	
     		}
     	}
         return check;

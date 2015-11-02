@@ -28,17 +28,18 @@ public class mySillyTests {
 		rgb = (rgb << 8) + 159;
         System.out.println(Integer.toHexString(rgb));
         //
+         * */
 		
 		float[][] testArray = {
 				{0.3f,0.8f,0.9f},
 				{0.2f,0.4f,0.3f},
 				{0.1f,0.5f,0.2f}
 		};
-		float pos = Filter.at(testArray, -1, -1);
+		float pos = Filter.at(testArray, 0, 3);
 		System.out.println(pos); 
 		
 		
-		float[][] kernel = {
+		/*float[][] kernel = {
 				{0.1f,0.1f,0.1f},
 				{0.1f,0.2f,0.1f},
 				{0.1f,0.1f,0.1f}
@@ -55,7 +56,7 @@ public class mySillyTests {
 		}
 		*/
 		
-		float[][] energy = {
+		/*float[][] energy = {
 				{0.5f,1.0f,0.1f,0.0f},
 				{0.5f,1.0f,0.1f,0.0f},
 				{2.0f,2.0f,0.1f,0.0f},
@@ -64,6 +65,7 @@ public class mySillyTests {
 		};
 		
 		int[] seam = Seam.find(energy);
+		*/
 		//float test = Float.POSITIVE_INFINITY;
 		//System.out.println(test);
 		
