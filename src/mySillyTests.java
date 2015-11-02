@@ -29,14 +29,24 @@ public class mySillyTests {
         System.out.println(Integer.toHexString(rgb));
         //
          * */
+		//int color = 0b00100000_11000000_11111111;
+		//assertEquals(0.1254902f, Color.getRed(color));
+		//assertEquals(0.7529412f, Color.getGreen(color));
+		//assertEquals(1.0f, Color.getBlue(color));
+		//assertEquals(0.6261438f, Color.getGray(color));
 		
-		float[][] testArray = {
+		//System.out.println(Color.getGreen(color));
+		//System.out.println(0x000000);
+		//System.out.println(0.1254902f == Color.getRed(color));
+		
+		/*float[][] testArray = {
 				{0.3f,0.8f,0.9f},
 				{0.2f,0.4f,0.3f},
 				{0.1f,0.5f,0.2f}
 		};
 		float pos = Filter.at(testArray, 0, 3);
 		System.out.println(pos); 
+		*/
 		
 		
 		/*float[][] kernel = {

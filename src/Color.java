@@ -14,7 +14,7 @@ public final class Color {
      */
     public static float getRed(int rgb) {
         // TODO getRed
-    	float red = rgb & 0b1111_1111;
+    	float red = rgb >> 16 & 0b1111_1111;
         return red/255.0f;
     }
 
@@ -28,7 +28,7 @@ public final class Color {
      */
     public static float getGreen(int rgb) {
         // TODO getGreen
-    	float blue = rgb & 0b1111_1111;
+    	float blue = rgb >> 8 & 0b1111_1111;
         return blue/255.0f;
     }
 
@@ -57,8 +57,8 @@ public final class Color {
      */
     public static float getGray(int rgb) {
         // TODO getGray
-    	float red = getRed(rgb >> 16);
-    	float green = getGreen(rgb >> 8);
+    	float red = getRed(rgb);
+    	float green = getGreen(rgb);
     	float blue = getBlue(rgb);
         return (red + green + blue)/3.0f;
     }

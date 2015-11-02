@@ -51,15 +51,15 @@ public final class Filter {
     	float current = 0.0f;
     	float around = 0.0f;
     	float[][] filtered = new float[gray.length][gray[0].length];
-    	for (int col = 0; col < gray.length; col++) {
-        	for (int row = 0; row < gray[0].length; row++) {
+    	for (int row = 0; row < gray.length; row++) {
+        	for (int col = 0; col < gray[0].length; col++) {
         		for (int i = -1; i < 2; i++) {
         			for (int j = -1; j < 2; j++) {
-        				around = at(gray, i + col, j + row);
+        				around = at(gray, i + row, j + col);
         				current += around * kernel[i+1][j+1];
         			}
         		}
-        		filtered[col][row] = current; 
+        		filtered[row][col] = current; 
         		current = 0.0f;
         	}
         }
@@ -124,9 +124,9 @@ public final class Filter {
     	float[][] sobelx = sobelX(gray);
     	float[][] sobely = sobelY(gray);
     	float[][] sobelSum = new float[gray.length][gray[0].length];
-    	for (int col = 0; col < gray.length; col++) {
-    		for (int row = 0; row < gray[0].length; row++) {
-    			sobelSum[col][row] = (float) Math.sqrt(Math.pow(sobelx[col][row], 2.0) + Math.pow(sobely[col][row], 2.0));
+    	for (int row = 0; row < gray.length; row++) {
+    		for (int col = 0; col < gray[0].length; col++) {
+    			sobelSum[row][col] = (float) Math.sqrt(Math.pow(sobelx[row][col], 2.0) + Math.pow(sobely[row][col], 2.0));
     		}
     	} 	
         return sobelSum;
