@@ -100,7 +100,7 @@ public final class Color {
      * @return 32-bits RGB color
      * @see #getGray
      */
-    public static int getRGB(float gray) {
+    public static int getRGB(float gray) { //the removed code seemed redundant since the other getRGB does the same thing. I just ended up calling it using the same parameter 3 times
     	// TODO getRGB
     	//int gray1 = (int) (checkFloat(gray) * 255.0f);
     	//int rgb = gray1;
@@ -126,9 +126,6 @@ public final class Color {
     			gray[i][j] = getGray(val);
     		}
     	}
-    	//System.out.println(red);
-    	//System.out.println(green);
-    	//System.out.println(blue);
         return gray;
     }
 
@@ -141,12 +138,6 @@ public final class Color {
      */
     public static int[][] toRGB(float[][] gray) {
     	// TODO toRGB
-    	//float grayC = 0.0f;
-    	//boolean k = true;
-    	//if (k) {
-    	//	System.out.println(gray[0].length*2);
-    	//	k = false;
-    	//}
     	int[][] fullGray = new int[gray.length][gray[0].length];
     	for (int i = 0; i < gray.length; i++) {
     		for (int j = 0; j < gray[0].length; j++) {

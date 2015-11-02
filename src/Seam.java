@@ -12,15 +12,10 @@ public final class Seam {
 		return stateID;
 	}
 	
-	//The next two methods essentially do the opposite of the one just above. Given a certain state we wish to locate it as a pixel in the image, prompting us to call upon
+	//This method essentially does the opposite of the one just above. Given a certain state we wish to locate it as a pixel in the image, prompting us to call upon
 	//the row and column
 		//Remark: This is used primarily to locate the pixels of the calculated seam, so we can automatically assume (since we are reducing the width of the image) that each point on the
-		//seam finds itself on the next row, so we only need to know the column number
-	public static int getRow(int stateID, int maxCol) {
-		int row = stateID / maxCol;
-		return row;
-	}
-	
+		//seam finds itself on the next row, so we only need to know the column number (thus the absence of a getRow)
 	public static int getCol(int stateID, int maxCol) {
 		int col = stateID % maxCol;
 		return col;
@@ -36,16 +31,13 @@ public final class Seam {
 		successors[height * width] = new int[width];
 		
 		for (int row = 0; row < height; row++) {
-			//System.out.print("{");
     		for (int col = 0; col < width; col++) {
-    			//System.out.print("{");
     			int stateID = getStateID(row, col, width);
     			
     			if (row == 0) {
     				successors[height * width][col] = stateID;
     			} else if (row == height - 1) {
     				successors[stateID] = new int[] {width * height + 1};
-    				//System.out.print(successors[stateID][0]);
     			} if (row >= 0 && row < height - 1){
     				int[] sucIt;
         			if (col == 0) {
@@ -61,90 +53,26 @@ public final class Seam {
         			
         			for (int k = 0; k < sucIt.length; k++) {
         				successors[stateID][k] = getStateID(row + 1, col + sucIt[k], width);
-        				//System.out.print(successors[stateID][k] + ",");
         			}
     			}
-    			   					
-    	    	//costs[stateID] = energy[row][col];
-    	    	//System.out.print(costs[stateID]);
-    	    	//System.out.print("}");
     		}
-    		//System.out.println("}");
-    		
     	}
 		successors[width * height + 1] = new int[] {};
 		return successors;
 	}
 	
-	//This method is currently calculating the cost it takes to get to a given pixel. It then stores the cheapest one in it's respective position in the bestPredecessor[] array
-	//Since the default method had some restrictive parameters that I couldn't use, I just ended up calculating the best path and transforming back to its respective image coordinates
-	public static int[] costs(int[][] successors, float[][] energy) {
-		float[] costs = new float[successors.length];
-    	for (int item = 0; item < costs.length; item++) {
-    		costs[item] = Float.POSITIVE_INFINITY;
-    	}
-    	
-    	int[] bestPredecessor = new int[costs.length];
-
-    	int height = energy.length;
-		int width = energy[0].length;
-		for (int item : successors[height * width]) {
-			costs[item] = energy[0][item];
-			//System.out.print(costs[item] + ",");
-			bestPredecessor[item] = height * width;
-			//System.out.print("{cost of [" + item + "] = " + costs[item] + "}");
-		}
-		//System.out.println();
-		for (int row = 0; row < height; row++) {
-			//System.out.print("{");
-			if (row == height - 1) {
-				break;
+	//Transforms the energy array into a more accessible (single layer) costs array which corresponds to the IDs of the successor array
+	public static float[] costs(float[][] energy) {
+		float[] costs = new float[energy.length * energy[0].length];
+		int i = 0;
+		for (int row = 0; row < energy.length; row++) {
+			for (int col = 0; col < energy[row].length; col++, i++) {
+				costs[i] = energy[row][col];
 			}
-    		for (int col = 0; col < width; col++) {
-    			//System.out.print("{");
-    			int stateID = getStateID(row, col, width);
-    			for (int item : successors[stateID]) {
-    				if (costs[item] > costs[stateID] + energy[row + 1][getCol(item, width)]) {
-        				costs[item] = costs[stateID] + energy[row + 1][getCol(item, width)];
-        				bestPredecessor[item] = stateID;
-        				//System.out.print("{cost[" + item + "] = " + costs[item] + "}");
-        			} 
-    				
-    			}    			
-    			//System.out.print("}");
-    		}
-    		
-    		//System.out.println("}");
 		}
-		int finalID = (width * height + 1);
-		//costs[finalID] = Float.POSITIVE_INFINITY;
-		for (int stateID = getStateID(height - 1, 0, width); stateID < finalID; stateID++) {
-			if (costs[finalID] > costs[stateID]) {
-				costs[finalID] = costs[stateID];
-				bestPredecessor[finalID] = stateID;
-				//System.out.print("{cost of [" + finalID + "] = " + costs[finalID] + "}");
-				//System.out.println("{predecessor of [" + finalID + "] = " + bestPredecessor[finalID] + "}");
-			}
-			
-		}
-		
-		ArrayList<Integer> path = new ArrayList<Integer>();
-    	int predecessor = width * height + 1;
-    	while (predecessor != width * height) {
-    		path.add(bestPredecessor[predecessor]);
-    		predecessor = bestPredecessor[predecessor];
-    		//System.out.print(predecessor + ",");
-    	} 
-    	
-    	int[] seam = new int[path.size() - 1];
-    	int j = 0;
-    	for(int i = path.size() - 2; i >= 0; i--, j++) {
-    	    seam[j] = path.get(i);  
-    	    //System.out.print(seam[j] + ",");
-    	}
-		//int[] seam = path(bestPredecessor, costs, width * height, width * height + 1);
-		return seam;
+		return costs;
 	}
+	
 	
     /**
      * Compute shortest path between {@code from} and {@code to}
@@ -154,11 +82,49 @@ public final class Seam {
      * @param to last vertex
      * @return a sequence of vertices, or {@code null} if no path exists
      */
-	//Basically, this method does nothing
-    public static int[] path(int[][] successors, float[] costs, int from, int to) { //even though this works, I changed the parameters, so I need to figure this out another way
+	//This method is currently calculating the cost it takes to get to a given pixel. It then stores the cheapest one in it's respective position in the bestPredecessor[] array
+    public static int[] path(int[][] successors, float[] costs, int from, int to) { 
         // TODO path
+    	float[] paths = new float[successors.length];
+    	for (int item = 0; item < paths.length; item++) {
+    		paths[item] = Float.POSITIVE_INFINITY;
+    	}
     	
-    	int[] seam = new int[successors.length];
+    	int[] bestPredecessor = new int[paths.length]; //Used to store the current best predecessor (which will be replaced if out-dated)
+
+		for (int item : successors[from]) { //Stores all the best predecessors for the first line because it is a special case
+			paths[item] = costs[item];
+			bestPredecessor[item] = from;
+		}
+		
+		for (int stateID = 0; stateID < from; stateID++) {
+			for (int successor : successors[stateID]) {
+				try { 
+					if (paths[successor] > paths[stateID] + costs[successor]) {
+						paths[successor] = paths[stateID] + costs[successor];
+						bestPredecessor[successor] = stateID;
+    				}	
+				} catch (Exception e) { //this catches the case in which we have reached the last line of the array, so we start comparing the cheapest paths
+					if (paths[to] > paths[stateID]) {
+						paths[to] = paths[stateID];
+						bestPredecessor[to] = stateID;
+					}
+				}
+			}    			
+		}
+		
+		ArrayList<Integer> path = new ArrayList<Integer>(); //I use an ArrayList here for simplicity, because I don't have the height value of the matrix
+    	int predecessor = to;
+    	while (predecessor != from) { //store the vertices of each respective position (starting from the bottom) until we reach the from position
+    		path.add(bestPredecessor[predecessor]); 
+    		predecessor = bestPredecessor[predecessor];
+    	} 
+    	
+    	int[] seam = new int[path.size() - 1]; 	//we then need to flip the list while cutting off the last term, this array will contain the stateID's but not the column positions
+    	int j = 0;								//this is actually the reason why testSeamPath fails, because I will calculate the columns in the Seam.java (for reasons which I will explain below)
+    	for(int i = path.size() - 2; i >= 0; i--, j++) {
+    	    seam[j] = path.get(i);  
+    	}
     	
         return seam;
     }
@@ -168,27 +134,23 @@ public final class Seam {
      * @param energy weight for all pixels
      * @return a sequence of x-coordinates (the y-coordinate is the index)
      */
-    //This method is also a misnomer, we're gonna have to work on the assignment more precisely
     public static int[] find(float[][] energy) {
         // TODO find
-    	int[][] successors = successors(energy);
-    	int[] path = costs(successors, energy);
-    	
-    	/*for (int item : seam) {
-    		System.out.println(item);
-    	}
-    	*/
+    	int[][] successors = successors(energy); 
+    	float[] costs = costs(energy);
+    	int[] path = path(successors, costs, costs.length, costs.length + 1);
     	
     	int[] seam = new int[path.length];
     	int i = 0;
     	for (int point : path) {
-    		seam[i] = getCol(point, energy[0].length);
-    		i++;
+    		seam[i] = getCol(point, energy[0].length); //To get the column position I use the getCol() method, and I need to pass the width of the line as an argument.
+    		i++;									   //Since I constructed it this way, it was just way simpler to return the actual seam at this point and not earlier, thus the failure of the JUnit test.
     	}
     
         return seam;
     }
 
+    //From this point on this is all default code (no fancy additions just yet...maybe in the future when I actually have time :D)
     /**
      * Draw a seam on an image
      * @param image original image

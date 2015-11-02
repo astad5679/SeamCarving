@@ -66,7 +66,7 @@ public class mySillyTests {
 		}
 		*/
 		
-		/*float[][] energy = {
+		float[][] energy = {
 				{0.5f,1.0f,0.1f,0.0f},
 				{0.5f,1.0f,0.1f,0.0f},
 				{2.0f,2.0f,0.1f,0.0f},
@@ -74,8 +74,16 @@ public class mySillyTests {
 				{1.0f,0.1f,1.0f,1.0f}
 		};
 		
-		int[] seam = Seam.find(energy);
-		*/
+		int[][] successors = Seam.successors(energy);
+		float[] costs = Seam.costs(energy);
+		
+		
+		int[] path = Seam.path(successors, costs, costs.length, costs.length + 1);
+		
+		//for (int item : path[item]) {
+			
+		//}
+		
 		//float test = Float.POSITIVE_INFINITY;
 		//System.out.println(test);
 		
